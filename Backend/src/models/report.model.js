@@ -18,6 +18,16 @@ const reportSchema = new Schema(
 
     // Reason of the raising report
     reason: { type: String, required: true },
+
+    // Status of the report
+    status: {
+      type: String,
+      enum: ["pending", "in review", "seen", "resolved"],
+      default: "pending",
+    },
+
+    // Result of the report
+    result: { type: String },
   },
   { timestamps: true }
 );

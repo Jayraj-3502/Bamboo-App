@@ -1,4 +1,4 @@
-import ApiError from "../utils/ApiError";
+import ApiError from "../utils/export.js";
 
 // Register User
 export async function registerUser(req, res) {
@@ -34,14 +34,6 @@ export async function forgotPasswordEmailVerification(req, res) {
 
 // Forgot Password OTP Verification
 export async function forgotPasswordOtpVerification(req, res) {
-  try {
-  } catch (error) {
-    ApiError({ res, statusCode: 500, error });
-  }
-}
-
-// Reset Password
-export async function resetPassword(req, res) {
   try {
   } catch (error) {
     ApiError({ res, statusCode: 500, error });

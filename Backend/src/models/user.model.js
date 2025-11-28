@@ -7,7 +7,8 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true, min: 6 },
     phone: { type: String, required: true },
-    photo: { type: String, required: true },
+    photoUrl: { type: String, required: true },
+    photoPublicUrl: { type: String },
     gender: {
       type: String,
       enum: ["male", "female", "other"],
@@ -60,6 +61,8 @@ const userSchema = new Schema(
       ],
       default: "casual",
     },
+    followers: { type: number, default: 0 },
+    following: { type: number, default: 0 },
     height: { type: String },
     lifestyle: [{ type: String }],
     isVerified: { type: Boolean, default: false },
