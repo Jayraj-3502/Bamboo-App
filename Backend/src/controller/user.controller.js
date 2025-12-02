@@ -1,35 +1,98 @@
+import User from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { fileUpload } from "../utils/fileUpload.js";
 
-// Update Infotmation
-export async function updateUserInformation(req, res) {
+// Create User Account
+export async function createUserProfile(req, res) {
   try {
+    // Getting all the details which is required to create an account (ex: fullname, emial, password etc)
+    const {
+      fullname = "",
+      email = "",
+      password = "",
+      phone = "",
+      gender = "",
+      dateOfBirth = "",
+      city = "",
+    } = req.body;
+
+    // save and gerate image url from cloudinary
+    const imageDetails = await fileUpload(req, res);
+
+    if (!imageDetails)
+      return ApiError({ res, statusCode: 400, error: "Something went wrong" });
+
+    const imageUrl = imageDetails.secure_url;
+    const imagePublicUrl = imageDetails.public_id;
+
+    // create user by using Create method and User model
+    const userCreated = await User.create({
+      fullname,
+      email,
+      password,
+      phone,
+      gender,
+      dateOfBirth,
+      location: { city },
+      imageUrl,
+      imagePublicUrl,
+    });
+
+    // cheking that user is created or not if not then throw an error
+    if (!userCreated)
+      return ApiError({ res, statusCode: 400, error: "User not created" });
+
+    // return message that user is created
+    ApiResponse({
+      res,
+      statusCode: 200,
+      activityType: "Creation",
+      data: userCreated,
+    });
   } catch (error) {
     ApiError({ res, statusCode: 500, error });
   }
 }
 
-// Delete Account
-export async function DeleteUserAccount(req, res) {
+// Update User Infotmation
+export async function updateUserProfile(req, res) {
   try {
+    // Getting all the details which we are going to change with email
+    // Checking that email is exist or not
+    // If Email is not exist then throw an error
+    // if user exist then update the details
+    // Send update response
   } catch (error) {
     ApiError({ res, statusCode: 500, error });
   }
 }
 
-// Reset Password
-export async function resetPassword(req, res) {
+// Delete User Account
+export async function deleteUserProfile(req, res) {
   try {
+    // Checking that email is exist or not
+    // If Email is not exist then throw an error response
+    // If Email exist then change user profile isActive property to false
+    // Send delete response
   } catch (error) {
     ApiError({ res, statusCode: 500, error });
   }
 }
 
-//Upload Image
+// Update Password
+export async function updatePassword(req, res) {
+  try {
+    //
+  } catch (error) {
+    ApiError({ res, statusCode: 500, error });
+  }
+}
+
+// Upload Image
 export async function uploadImage(req, res) {
   try {
-    const response = await fileUpload();
+    const response = await fileUpload(req, res);
 
     if (!response)
       return ApiError({ res, statusCode: 400, error: "Something wrong" });

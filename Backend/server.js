@@ -1,11 +1,13 @@
-import express from "express";
-import { mongoDbConnection } from "./src/database/db.js";
-import ApiResponse from "./src/utils/ApiResponse.js";
-import uploadRoute from "./src/routes/upload.route.js";
 import dotenv from "dotenv";
+import express, { json, urlencoded } from "express";
+import { mongoDbConnection } from "./src/database/db.js";
+import uploadRoute from "./src/routes/upload.route.js";
+import authRoute from "./src/routes/auth.route.js";
 
 dotenv.config();
 const app = express();
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 8000;
 
@@ -19,6 +21,7 @@ const PORT = process.env.PORT || 8000;
 // });
 
 app.use("/api", uploadRoute);
+app.use("/auth", authRoute);
 
 mongoDbConnection();
 

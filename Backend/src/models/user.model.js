@@ -7,8 +7,8 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true, min: 6 },
     phone: { type: String, required: true },
-    photoUrl: { type: String, required: true },
-    photoPublicUrl: { type: String },
+    imageUrl: { type: String, required: true },
+    imagePublicUrl: { type: String },
     gender: {
       type: String,
       enum: ["male", "female", "other"],
@@ -19,10 +19,10 @@ const userSchema = new Schema(
     // Preference for Matching
     preferedGender: { type: String, enum: ["male", "female", "other"] },
     ageRange: {
-      min: { type: number },
-      max: { type: number },
+      min: { type: Number },
+      max: { type: Number },
     },
-    distanceRange: { type: number, default: 0 },
+    distanceRange: { type: Number, default: 0 },
     location: {
       city: { type: String, required: true },
     },
@@ -61,18 +61,21 @@ const userSchema = new Schema(
       ],
       default: "casual",
     },
-    followers: { type: number, default: 0 },
-    following: { type: number, default: 0 },
     height: { type: String },
     lifestyle: [{ type: String }],
-    isVerified: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: true },
+
+    // Follower and Following
+    followers: { type: Number, default: 0 },
+    following: { type: Number, default: 0 },
 
     // Status and other details
-    isActive: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: true },
     blocked: [{ type: Schema.Types.ObjectId, ref: "User" }],
     lastActive: { type: Date, default: Date.now() },
   },
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;
