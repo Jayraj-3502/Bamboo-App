@@ -39,7 +39,6 @@ export async function registerUser(req, res) {
 // Registeration OTP Verification
 export async function registerUserOtpVerification(req, res) {
   try {
-    console.log("this is runnng", req.body);
     // Taking and Destructuring the required details for the User profile from request body
     const {
       fullname = "",
@@ -72,7 +71,6 @@ export async function registerUserOtpVerification(req, res) {
 
     // If user exist and isActive:false then run the update method if not exist then creating the new User profile
     if (userExist.length === 0) {
-      console.log("Creating new user");
       await createUserProfile(req, res);
     } else {
       console.log("Updating the user data");
@@ -123,7 +121,8 @@ export async function forgotPasswordOtpVerification(req, res) {
     // checking that email is exist or not also isActive property
     // if email not exist the throw and error
     // if email exits then matching the OTP's. If not matched then throw error
-    // if OTP's matched then send response that OTP matched
+    // if OTP's matched then running the password update operation / function
+    // return the response that otp verified and password updated
   } catch (error) {
     ApiError({ res, statusCode: 500, error });
   }

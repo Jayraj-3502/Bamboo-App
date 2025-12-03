@@ -20,9 +20,11 @@ export async function createUserProfile(req, res) {
     // save and gerate image url from cloudinary
     const imageDetails = await fileUpload(req, res);
 
+    // if responce is empty then throwing error
     if (!imageDetails)
       return ApiError({ res, statusCode: 400, error: "Something went wrong" });
 
+    // setting image details so send it to create method
     const imageUrl = imageDetails.secure_url;
     const imagePublicUrl = imageDetails.public_id;
 
@@ -83,7 +85,11 @@ export async function deleteUserProfile(req, res) {
 // Update Password
 export async function updatePassword(req, res) {
   try {
-    //
+    // getting all the required fields which need to do this operation
+    // checking that the given fields are not empty
+    // encrypt the password provided by the user
+    // update the user password with there corresponding email
+    // check if password updated or not if not then send null if yes then send something else
   } catch (error) {
     ApiError({ res, statusCode: 500, error });
   }
